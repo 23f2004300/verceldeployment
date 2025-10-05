@@ -1,16 +1,15 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 
 app = FastAPI()
 
-# Enable CORS for POST requests from any origin
+# Enable CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],          # allow any origin
-    allow_credentials=True,
-    allow_methods=["*"],          # allow all methods, e.g., POST, GET
-    allow_headers=["*"],          # allow all headers
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.post("/")
@@ -18,18 +17,9 @@ async def telemetry(data: dict):
     regions = data.get("regions", [])
     threshold_ms = data.get("threshold_ms", 180)
 
-    # Sample telemetry data
     sample_data = {
-        "amer": [
-            {"latency": 150, "uptime": 0.99},
-            {"latency": 170, "uptime": 1.0},
-            {"latency": 200, "uptime": 0.95},
-        ],
-        "emea": [
-            {"latency": 120, "uptime": 0.98},
-            {"latency": 160, "uptime": 0.97},
-            {"latency": 190, "uptime": 0.96},
-        ],
+        "amer": [{"latency": 150, "uptime": 0.99}, {"latency": 170, "uptime": 1.0}, {"latency": 200, "uptime": 0.95}],
+        "emea": [{"latency": 120, "uptime": 0.98}, {"latency": 160, "uptime": 0.97}, {"latency": 190, "uptime": 0.96}],
     }
 
     response = {}
