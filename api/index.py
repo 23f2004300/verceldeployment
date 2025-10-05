@@ -7,9 +7,10 @@ app = FastAPI()
 # Enable CORS for POST requests from any origin
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["POST"],
-    allow_headers=["*"],
+    allow_origins=["*"],          # allow any origin
+    allow_credentials=True,
+    allow_methods=["*"],          # allow all methods, e.g., POST, GET
+    allow_headers=["*"],          # allow all headers
 )
 
 @app.post("/")
@@ -17,8 +18,7 @@ async def telemetry(data: dict):
     regions = data.get("regions", [])
     threshold_ms = data.get("threshold_ms", 180)
 
-    # Sample telemetry data for each region
-    # In practice, you'd read this from your telemetry bundle or DB
+    # Sample telemetry data
     sample_data = {
         "amer": [
             {"latency": 150, "uptime": 0.99},
@@ -33,7 +33,6 @@ async def telemetry(data: dict):
     }
 
     response = {}
-
     for region in regions:
         records = sample_data.get(region, [])
         if not records:
